@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router';
 import { Button } from './components/ui/button';
+import CenteredLayout from './layouts/CenteredLayout';
 
 const App = () => {
   return (
@@ -13,9 +14,18 @@ const App = () => {
         }
       />
       <Route path="auth">
-        <Route path="sign-up" element={<div>サインアップページ</div>} />
-        <Route path="login" element={<div>ログインページ</div>} />
-        <Route path="logout" element={<div>ログアウトページ</div>} />
+        <Route
+          path="sign-up"
+          element={<CenteredLayout>サインアップページ</CenteredLayout>}
+        />
+        <Route
+          path="login"
+          element={<CenteredLayout>ログインページ</CenteredLayout>}
+        />
+        <Route
+          path="logout"
+          element={<CenteredLayout>ログアウトページ</CenteredLayout>}
+        />
       </Route>
     </Routes>
   );
