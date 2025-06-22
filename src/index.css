@@ -118,3 +118,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --color-link: #1e88e5;
+}

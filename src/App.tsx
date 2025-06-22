@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router';
-import { Button } from './components/ui/button';
-import CenteredLayout from './layouts/CenteredLayout';
+import { Button } from './components/ui';
+import { CenteredLayout } from './layouts';
+import { LoginPage } from './pages';
 
 const App = () => {
   return (
@@ -18,10 +19,7 @@ const App = () => {
           path="sign-up"
           element={<CenteredLayout>サインアップページ</CenteredLayout>}
         />
-        <Route
-          path="login"
-          element={<CenteredLayout>ログインページ</CenteredLayout>}
-        />
+        <Route path="login" element={<LoginPage />} />
         <Route
           path="logout"
           element={<CenteredLayout>ログアウトページ</CenteredLayout>}
