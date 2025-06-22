@@ -1,17 +1,139 @@
-# React + TypeScript + Vite
+# react-todo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## プロジェクトの作成
 
-Currently, two official plugins are available:
+次を実行して、`React + TypeScript`テンプレートを選択します。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm create vite@latest
+cd <project-dir>
+```
 
-## Expanding the ESLint configuration
+次を実行して、Tailwind CSSをプロジェクトに追加します。
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```sh
+npm install tailwindcss @tailwindcss/vite
+```
+
+`src/index.css`ファイルを次で置き換えます。
+
+```css
+@import "tailwindcss";
+```
+
+`tsconfig.json`ファイルを次で置き換えます。
+
+```json
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+`tsconfig.app.json`ファイルを次で置き換えます。
+
+```json
+{
+  "compilerOptions": {
+    // ...
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+    // ...
+  }
+}
+```
+
+次を実行して、nodeの型定義をインストールします。
+
+```sh
+npm install -D @types/node
+```
+
+`vite.config.ts`ファイルを次で置き換えます。
+
+```ts
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+```
+
+次を実行して、shadcnをインストールします。
+
+```sh
+npx shadcn@latest init
+```
+
+`components.json`を構成するために、いくつかの質問に回答します。
+
+```text
+Which color would you like to use as base color? › Neutral
+```
+
+shadcnのボタンコンポーネントをインストールする場合、次を実行します。
+
+```sh
+npx shadcn@latest add button
+```
+
+```ts
+import { Button } from "@/components/ui/button"
+
+function App() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center">
+      <Button>Click me</Button>
+    </div>
+  )
+}
+
+export default App
+```
+
+## React + TypeScript + Vite
+
+このテンプレートは、HMRといくつかのESLintルールを使用して、Reactを機能させる最低限の準備を提供しています。
+
+> HMR: ページをリロードせずにアプリ内のモジュールを更新する技術
+
+現在、2つの公式なプラグインが利用できます。
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)は、Fast Refreshに[Babel](https://babeljs.io/)を使用します。
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc)は、Fast Refreshに[SWC](https://swc.rs/)を使用します。
+
+### ESLint設定の拡張
+
+もしプロダクションアプリケーションを開発している場合、型認識リントルールを有効にするために、設定を更新することを推奨します。
 
 ```js
+// eslint.config.js
 export default tseslint.config({
   extends: [
     // Remove ...tseslint.configs.recommended and replace with this
@@ -31,7 +153,11 @@ export default tseslint.config({
 })
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+React特有のリントルール用に、 [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x)と [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom)をインストールできます。
+
+```sh
+npm install --save-dev eslint-plugin-react-x eslint-plugin-react-dom
+```
 
 ```js
 // eslint.config.js
@@ -51,4 +177,22 @@ export default tseslint.config({
     ...reactDom.configs.recommended.rules,
   },
 })
+```
+
+## shadcnのカスタマイズ
+
+例えば、`a`要素のテキストの色を設定する場合、`src/index.css`に次を追加します。
+
+```css
+@theme {
+  --color-link: #1e88e5;
+}
+```
+
+```tsx
+<p>
+  登録していない場合は、
+  <Link className="text-link" to=".">サインアップ</Link>
+  してください。
+</p>
 ```
