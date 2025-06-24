@@ -20,3 +20,4 @@ export {
   CardContent,
   CardFooter,
 } from './card.tsx';
+export { Alert, AlertTitle, AlertDescription } from './alert.tsx';

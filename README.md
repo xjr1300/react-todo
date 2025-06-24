@@ -196,3 +196,33 @@ export default tseslint.config({
   してください。
 </p>
 ```
+
+## コンポーネントの拡張
+
+プリミティブなコンポーネントを拡張したコンポーネントは、`/src/components/atoms`に配置します。
+
+```tsx
+import type React from 'react';
+import { FormLabel as ShadcnLabel } from '../ui';
+import { cn } from '@/lib/utils';
+
+type Props = React.ComponentProps<typeof ShadcnLabel> & {
+  required?: boolean;
+};
+
+export const FormLabel = ({
+  children,
+  className,
+  required,
+  ...props
+}: Props) => {
+  const clsName = required ? cn('gap-0.5', className) : className;
+
+  return (
+    <ShadcnLabel className={clsName} {...props}>
+      {children}
+      {required && <span className="pt-0.5">*</span>}
+    </ShadcnLabel>
+  );
+};
+```

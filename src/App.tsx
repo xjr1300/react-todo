@@ -1,31 +1,32 @@
 import { Routes, Route } from 'react-router';
 import { Button } from './components/ui';
 import { CenteredLayout } from './layouts';
-import { LoginPage } from './pages';
+import { LoginPage, SignUpPage } from './pages';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
-    <Routes>
-      <Route
-        index
-        element={
-          <div className="flex min-h-svh flex-col items-center justify-center">
-            <Button>Click me</Button>
-          </div>
-        }
-      />
-      <Route path="auth">
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Routes>
         <Route
-          path="sign-up"
-          element={<CenteredLayout>サインアップページ</CenteredLayout>}
+          index
+          element={
+            <div className="flex min-h-svh flex-col items-center justify-center">
+              <Button>Click me</Button>
+            </div>
+          }
         />
-        <Route path="login" element={<LoginPage />} />
-        <Route
-          path="logout"
-          element={<CenteredLayout>ログアウトページ</CenteredLayout>}
-        />
-      </Route>
-    </Routes>
+        <Route path="auth">
+          <Route path="sign-up" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route
+            path="logout"
+            element={<CenteredLayout>ログアウトページ</CenteredLayout>}
+          />
+        </Route>
+      </Routes>
+    </>
   );
 };
 
