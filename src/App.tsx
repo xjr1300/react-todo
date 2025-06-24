@@ -2,12 +2,11 @@ import { Routes, Route } from 'react-router';
 import { Button } from './components/ui';
 import { CenteredLayout } from './layouts';
 import { LoginPage, SignUpPage } from './pages';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from './components/ui';
 
 const App = () => {
   return (
     <>
-      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route
           index
@@ -26,6 +25,7 @@ const App = () => {
           />
         </Route>
       </Routes>
+      <Toaster position="bottom-right" closeButton />
     </>
   );
 };

@@ -21,3 +21,4 @@ export {
   CardFooter,
 } from './card.tsx';
 export { Alert, AlertTitle, AlertDescription } from './alert.tsx';
+export { Toaster } from './sonner.tsx';

@@ -16,7 +16,7 @@ import {
   FormMessage,
   Input,
 } from '../ui';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { type SignUpData, SignUpSchema } from '@/types';
 import { Link, FormLabel, AppName } from '../atoms';
@@ -24,8 +24,6 @@ import { useSignUp } from './hooks';
 import { type ApiError } from '@/api';
 import { AlertMessage } from '../features/AlertMessage';
 import { PasswordInput } from '../atoms/PasswordInput';
-
-const SUCCESS_TOAST_ID = 'sign-up-success';
 
 const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const form = useForm<SignUpData>({
@@ -46,8 +44,7 @@ const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
   };
 
   if (isSuccess) {
-    toast.remove(SUCCESS_TOAST_ID);
-    toast.success('サインアップに成功しました。', { id: SUCCESS_TOAST_ID });
+    toast.success('サインアップに成功しました。');
     void navigate('/auth/login');
   }
 
