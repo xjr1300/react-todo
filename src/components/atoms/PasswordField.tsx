@@ -38,6 +38,19 @@ export const PasswordField = ({
         <FormItem>
           <FormLabel required={required}>{label}</FormLabel>
           <FormControl>
+            {/*
+            <Input
+              {...field}
+              type={passwordVisibility ? 'text' : 'password'}
+              autoComplete="on"
+              placeholder={placeholder}
+              className={`pr-12 ${
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                getFieldState(name).error && 'border-destructive'
+              }`}
+            />
+            */}
+            {/* FIXME: The border of the input was not rendered with destructive color */}
             <Box className="relative">
               <Input
                 {...field}
