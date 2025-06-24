@@ -20,7 +20,7 @@ interface PasswordFieldProps {
   description?: string;
 }
 
-export const PasswordInput = ({
+export const PasswordField = ({
   label = 'パスワード',
   name = 'password',
   required = true,

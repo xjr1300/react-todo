@@ -23,7 +23,7 @@ import { Link, FormLabel, AppName } from '../atoms';
 import { useSignUp } from './hooks';
 import { type ApiError } from '@/api';
 import { AlertMessage } from '../features/AlertMessage';
-import { PasswordInput } from '../atoms/PasswordInput';
+import { PasswordField } from '../atoms/PasswordField';
 
 const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const form = useForm<SignUpData>({
@@ -106,8 +106,8 @@ const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
                   </FormItem>
                 )}
               />
-              <PasswordInput label="パスワード" name="password" />
-              <PasswordInput label="確認用パスワード" name="confirmPassword" />
+              <PasswordField label="パスワード" name="password" />
+              <PasswordField label="確認用パスワード" name="confirmPassword" />
               <div className="flex justify-end">
                 <Button className="w-full" type="submit" disabled={isPending}>
                   {isPending ? '処理中...' : 'サインアップ'}
