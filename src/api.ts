@@ -6,6 +6,11 @@ import {
   UserSchema,
   type SignUpData,
   type User,
+  type LoginData,
+  type TokenPairData,
+  TokenPairSchema,
+  tokenPairFromTokenPairData,
+  type TokenPair,
 } from './types';
 
 const BASE_URL =
@@ -95,6 +100,11 @@ export const signUp = async (data: SignUpData): Promise<User> => {
   return userFromUserData(userData);
 };
 
+export const login = async (data: LoginData): Promise<TokenPair> => {
+  const response = await client.post<TokenPairData>('/users/login', data);
+  const tokenPairData = TokenPairSchema.parse(response.data);
+  return tokenPairFromTokenPairData(tokenPairData);
+};
 export interface ErrorMessage {
   key: string;
   message: string;
@@ -103,7 +113,7 @@ export interface ErrorMessage {
 export const errorMessagesFromApiError = (error: unknown): ErrorMessage[] => {
   const apiError = ApiErrorSchema.safeParse(error);
   if (!apiError.success) {
-    console.error('Failed to parse ApiError:', apiError.error);
+    // console.error('Failed to parse ApiError:', apiError.error);
     return [];
   }
   return apiError.data.messages.map((message) => {

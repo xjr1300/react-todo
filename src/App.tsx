@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router';
 import { Button } from './components/ui';
 import { CenteredLayout } from './layouts';
-import { LoginPage, SignUpPage } from './pages';
+import { DashboardPage, LoginPage, SignUpPage } from './pages';
 import { Toaster } from './components/ui';
 
 const App = () => {
@@ -24,6 +24,7 @@ const App = () => {
             element={<CenteredLayout>ログアウトページ</CenteredLayout>}
           />
         </Route>
+        <Route path="dashboard" element={<DashboardPage />} />
       </Routes>
       <Toaster position="bottom-right" closeButton />
     </>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import {
   Button,
   Card,
@@ -10,20 +11,13 @@ import {
   CardHeader,
   CardTitle,
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  Input,
 } from '../ui';
-import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-import { type SignUpData, SignUpSchema } from '@/types';
-import { Link, FormLabel, AppName } from '../atoms';
-import { useSignUp } from './hooks';
-import { type ApiError } from '@/api';
+import { AppName, InputField, Link, PasswordField } from '../common';
 import { AlertMessage } from '../features/AlertMessage';
-import { PasswordField } from '../atoms/PasswordField';
+import { type SignUpData, SignUpSchema } from '@/types';
+import { type ApiError } from '@/api';
+import { useSignUp } from './hooks';
 
 const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const form = useForm<SignUpData>({
@@ -44,13 +38,13 @@ const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
   };
 
   if (isSuccess) {
-    toast.success('サインアップに成功しました。');
+    toast.success('サインアップに成功しました。', { id: 'sign-up-success' });
     void navigate('/auth/login');
   }
 
   if (isError) {
     const apiError = error as ApiError;
-    console.error(apiError.messages);
+    console.error(apiError);
   }
 
   return (
@@ -67,55 +61,35 @@ const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
               className="flex flex-col gap-3"
               onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
             >
-              <FormField
-                control={form.control}
+              <InputField
+                type="text"
                 name="familyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel required>苗字</FormLabel>
-                    <FormControl>
-                      <Input placeholder="苗字を入力" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="苗字"
+                required
+                placeholder="苗字を入力"
               />
-              <FormField
-                control={form.control}
+              <InputField
+                type="text"
                 name="givenName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel required>名前</FormLabel>
-                    <FormControl>
-                      <Input placeholder="名前を入力" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="名前"
+                required
+                placeholder="名前を入力"
               />
-              <FormField
-                control={form.control}
+              <InputField
+                type="email"
                 name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel required>Eメールアドレス</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Eメールアドレスを入力" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Eメールアドレス"
+                required
+                placeholder="Eメールアドレスを入力"
               />
               <PasswordField label="パスワード" name="password" />
               <PasswordField label="確認用パスワード" name="confirmPassword" />
-              <div className="flex justify-end">
-                <Button className="w-full" type="submit" disabled={isPending}>
-                  {isPending ? '処理中...' : 'サインアップ'}
-                </Button>
-              </div>
+              <Button className="w-full" type="submit" disabled={isPending}>
+                {isPending ? '処理中...' : 'サインアップ'}
+              </Button>
               {isError && (
                 <AlertMessage
-                  title="サインアップに失敗しました"
+                  title="サインアップに失敗しました。"
                   apiError={error}
                 />
               )}

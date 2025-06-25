@@ -111,3 +111,39 @@ export const userFromUserData = (data: UserData): User => {
     updatedAt: dayjs(data.updatedAt),
   };
 };
+
+export const LoginSchema = z.object({
+  email: z.email({
+    message: '有効なメールアドレスを入力してください。',
+  }),
+  password: z.string().trim().min(8, {
+    message: 'パスワードは8文字以上で入力してください。',
+  }),
+});
+
+export type LoginData = z.infer<typeof LoginSchema>;
+
+export const TokenPairSchema = z.object({
+  accessToken: z.string().trim(),
+  accessExpiredAt: z.iso.datetime(),
+  refreshToken: z.string().trim(),
+  refreshExpiredAt: z.iso.datetime(),
+});
+
+export type TokenPairData = z.infer<typeof TokenPairSchema>;
+
+export interface TokenPair {
+  accessToken: string;
+  accessExpiredAt?: Dayjs;
+  refreshToken: string;
+  refreshExpiredAt?: Dayjs;
+}
+
+export const tokenPairFromTokenPairData = (data: TokenPairData): TokenPair => {
+  return {
+    accessToken: data.accessToken,
+    accessExpiredAt: dayjs(data.accessExpiredAt),
+    refreshToken: data.refreshToken,
+    refreshExpiredAt: dayjs(data.refreshExpiredAt),
+  };
+};
