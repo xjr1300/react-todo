@@ -9,12 +9,14 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { createElement, useState } from 'react';
 import { FormLabel } from './FormLabel';
 
 interface PasswordFieldProps {
-  label?: string;
   name?: string;
+  id?: string;
+  label?: string;
   required?: boolean;
   placeholder?: string;
   description?: string;
@@ -23,12 +25,15 @@ interface PasswordFieldProps {
 export const PasswordField = ({
   label = 'パスワード',
   name = 'password',
+  id,
   required = true,
   placeholder = 'パスワードを入力',
   description,
 }: PasswordFieldProps) => {
   const { control, getFieldState } = useFormContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const inputId = id ?? crypto.randomUUID();
+  const error = getFieldState(name).error;
 
   return (
     <FormField
@@ -36,7 +41,9 @@ export const PasswordField = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel required={required}>{label}</FormLabel>
+          <FormLabel htmlFor={inputId} required={required}>
+            {label}
+          </FormLabel>
           <FormControl>
             {/*
             <Input
@@ -44,23 +51,18 @@ export const PasswordField = ({
               type={passwordVisibility ? 'text' : 'password'}
               autoComplete="on"
               placeholder={placeholder}
-              className={`pr-12 ${
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                getFieldState(name).error && 'border-destructive'
-              }`}
+              className={cn('pr-2', error && 'border-destructive')}
             />
             */}
             {/* FIXME: The border of the input was not rendered with destructive color */}
             <Box className="relative">
               <Input
                 {...field}
+                id={inputId}
                 type={passwordVisibility ? 'text' : 'password'}
                 autoComplete="on"
                 placeholder={placeholder}
-                className={`pr-12 ${
-                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                  getFieldState(name).error && 'border-destructive'
-                }`}
+                className={cn('pr-2', error && 'border-destructive')}
               />
               <Box
                 className="absolute inset-y-0 right-0 flex cursor-pointer items-center p-3 text-muted-foreground"
