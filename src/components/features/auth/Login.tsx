@@ -11,10 +11,10 @@ import {
   CardHeader,
   CardTitle,
   Form,
-} from '../ui';
+} from '../../ui';
 import { cn } from '@/lib/utils';
-import { AppName, InputField, Link, PasswordField } from '../common';
-import { AlertMessage } from '../features/AlertMessage';
+import { AppName, InputField, Link, PasswordField } from '../../common';
+import { AlertMessage } from '../../common/AlertMessage';
 import { type LoginData, LoginSchema } from '@/types';
 import type { ApiError } from '@/api';
 import { useLogin } from './hooks';

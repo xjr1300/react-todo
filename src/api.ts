@@ -11,6 +11,11 @@ import {
   TokenPairSchema,
   tokenPairFromTokenPairData,
   type TokenPair,
+  type CreateTodoData,
+  type Todo,
+  type TodoData,
+  TodoSchema,
+  todoFromTodoData,
 } from './types';
 
 const BASE_URL =
@@ -95,6 +100,25 @@ const apiErrorFromUnknown = (error: unknown): ApiError => {
   return new ApiError(['An unexpected error occurred']);
 };
 
+export interface ErrorMessage {
+  key: string;
+  message: string;
+}
+
+export const errorMessagesFromApiError = (error: unknown): ErrorMessage[] => {
+  const apiError = ApiErrorSchema.safeParse(error);
+  if (!apiError.success) {
+    console.error('Failed to parse ApiError:', apiError.error);
+    return [];
+  }
+  return apiError.data.messages.map((message) => {
+    return {
+      key: crypto.randomUUID(),
+      message: message,
+    };
+  });
+};
+
 export const signUp = async (data: SignUpData): Promise<User> => {
   const response = await client.post<UserData>('/users/sign-up', data);
   const userData = UserSchema.parse(response.data);
@@ -106,21 +130,9 @@ export const login = async (data: LoginData): Promise<TokenPair> => {
   const tokenPairData = TokenPairSchema.parse(response.data);
   return tokenPairFromTokenPairData(tokenPairData);
 };
-export interface ErrorMessage {
-  key: string;
-  message: string;
-}
 
-export const errorMessagesFromApiError = (error: unknown): ErrorMessage[] => {
-  const apiError = ApiErrorSchema.safeParse(error);
-  if (!apiError.success) {
-    // console.error('Failed to parse ApiError:', apiError.error);
-    return [];
-  }
-  return apiError.data.messages.map((message) => {
-    return {
-      key: crypto.randomUUID(),
-      message: message,
-    };
-  });
+export const createTodo = async (data: CreateTodoData): Promise<Todo> => {
+  const response = await client.post<TodoData>('/todos', data);
+  const todoData = TodoSchema.parse(response.data);
+  return todoFromTodoData(todoData);
 };

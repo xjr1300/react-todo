@@ -79,7 +79,7 @@ export const UserSchema = z.object({
   email: z.email(),
   role: RoleSchema,
   active: z.boolean(),
-  lastLoginAt: z.iso.datetime().nullable(),
+  lastLoginAt: z.iso.datetime(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
 });
@@ -145,5 +145,116 @@ export const tokenPairFromTokenPairData = (data: TokenPairData): TokenPair => {
     accessExpiredAt: dayjs(data.accessExpiredAt),
     refreshToken: data.refreshToken,
     refreshExpiredAt: dayjs(data.refreshExpiredAt),
+  };
+};
+
+export const CreateTodoSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(1, {
+      message: 'タイトルを入力してください。',
+    })
+    .max(100, {
+      message: 'タイトルは100文字以内で入力してください。',
+    }),
+  description: z
+    .string()
+    .trim()
+    .max(255, {
+      message: '説明は255文字以内で入力してください。',
+    })
+    .optional(),
+  dueDate: z.iso.date().optional(),
+});
+
+export type CreateTodoData = z.infer<typeof CreateTodoSchema>;
+
+export const TodoStatusSchema = z.object({
+  code: z.number().int(),
+  name: z.string().trim(),
+  description: z.string().trim().optional(),
+  displayOrder: z.number().int(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+});
+
+export type TodoStatusData = z.infer<typeof TodoStatusSchema>;
+
+export interface TodoStatus {
+  code: number;
+  name: string;
+  description?: string;
+  displayOrder: number;
+  createdAt: Dayjs;
+  updatedAt: Dayjs;
+}
+
+export interface Todo {
+  id: string;
+  user: User;
+  title: string;
+  description?: string;
+  status: TodoStatus;
+  dueDate?: Dayjs;
+  completedAt?: Dayjs;
+  archived: boolean;
+  createdAt: Dayjs;
+  updatedAt: Dayjs;
+}
+
+export const todoStatusFromTodoStatusData = (
+  data: TodoStatusData
+): TodoStatus => {
+  return {
+    code: data.code,
+    name: data.name,
+    description: data.description,
+    displayOrder: data.displayOrder,
+    createdAt: dayjs(data.createdAt),
+    updatedAt: dayjs(data.updatedAt),
+  };
+};
+
+export const TodoSchema = z.object({
+  id: z.uuid(),
+  user: UserSchema,
+  title: z.string().trim(),
+  description: z.string().trim().optional(),
+  status: TodoStatusSchema,
+  dueDate: z.iso.date().optional(),
+  completedAt: z.iso.datetime().optional(),
+  archived: z.boolean(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+});
+
+export type TodoData = z.infer<typeof TodoSchema>;
+
+export interface Todo {
+  id: string;
+  user: User;
+  title: string;
+  description?: string;
+  status: TodoStatus;
+  dueDate?: Dayjs;
+  completedAt?: Dayjs;
+  archived: boolean;
+  createdAt: Dayjs;
+  updatedAt: Dayjs;
+}
+
+export const todoFromTodoData = (data: TodoData): Todo => {
+  return {
+    id: data.id,
+    user: userFromUserData(data.user),
+    title: data.title,
+    description: data.description,
+    status: todoStatusFromTodoStatusData(data.status),
+    dueDate: data.dueDate ? dayjs(data.dueDate) : undefined,
+    completedAt: data.completedAt ? dayjs(data.completedAt) : undefined,
+    archived: data.archived,
+    createdAt: dayjs(data.createdAt),
+    updatedAt: dayjs(data.updatedAt),
   };
 };
