@@ -14,7 +14,8 @@ import {
 } from './types';
 
 const BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string) || 'http://localhost:8000';
+  (import.meta.env.VITE_API_BASE_URL as string) ||
+  'http://localhost:8000/api/v1';
 const API_TIMEOUT = 10000; // 10 seconds
 
 // axiosインスタンスを作成
