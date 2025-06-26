@@ -17,6 +17,7 @@ interface InputFieldProps {
   required?: boolean;
   placeholder?: string;
   description?: string;
+  autoComplete?: React.HTMLInputAutoCompleteAttribute;
 }
 
 export const InputField = ({
@@ -27,6 +28,7 @@ export const InputField = ({
   required = false,
   placeholder,
   description,
+  autoComplete,
 }: InputFieldProps) => {
   const { control } = useFormContext();
   const inputId = id ?? crypto.randomUUID();
@@ -45,6 +47,7 @@ export const InputField = ({
               type={type}
               id={inputId}
               placeholder={placeholder}
+              autoComplete={autoComplete}
               {...field}
             />
           </FormControl>

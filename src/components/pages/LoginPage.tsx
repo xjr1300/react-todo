@@ -1,4 +1,4 @@
-import { CenteredLayout } from '@/layouts';
+import { CenteredLayout } from '@/components/layouts';
 import Login from '@/components/features/auth/Login';
 
 export const LoginPage = () => (

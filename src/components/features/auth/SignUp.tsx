@@ -13,8 +13,8 @@ import {
   Form,
 } from '../../ui';
 import { cn } from '@/lib/utils';
-import { AppName, InputField, Link, PasswordField } from '../../common';
-import { AlertMessage } from '../../common/AlertMessage';
+import { AppName, InputField, Link, PasswordField } from '../../primitives';
+import { AlertMessage } from '../../primitives/AlertMessage';
 import { type SignUpData, SignUpSchema } from '@/types';
 import { type ApiError } from '@/api';
 import { useSignUp } from './hooks';
@@ -82,8 +82,16 @@ const SignUp = ({ className, ...props }: React.ComponentProps<'div'>) => {
                 required
                 placeholder="Eメールアドレスを入力"
               />
-              <PasswordField label="パスワード" name="password" />
-              <PasswordField label="確認用パスワード" name="confirmPassword" />
+              <PasswordField
+                label="パスワード"
+                name="password"
+                autoComplete="off"
+              />
+              <PasswordField
+                label="確認用パスワード"
+                name="confirmPassword"
+                autoComplete="off"
+              />
               <Button className="w-full" type="submit" disabled={isPending}>
                 {isPending ? '処理中...' : 'サインアップ'}
               </Button>

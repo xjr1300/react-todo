@@ -1,9 +1,11 @@
-import { useAuthStore } from '@/stores/auth';
 import { Navigate } from 'react-router';
+import type { User } from '@/types';
 
-export const DashboardPage = () => {
-  const user = useAuthStore((state) => state.user);
+interface Props {
+  user: User | null | undefined;
+}
 
+export const DashboardPage = ({ user }: Props) => {
   if (user === null) {
     return <Navigate to="/auth/login" replace />;
   }

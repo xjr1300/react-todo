@@ -1,10 +1,18 @@
 import { Routes, Route } from 'react-router';
 import { Button } from './components/ui';
-import { CenteredLayout } from './layouts';
-import { CreateTodoPage, DashboardPage, LoginPage, SignUpPage } from './pages';
+import { CenteredLayout } from './components/layouts';
+import {
+  CreateTodoPage,
+  DashboardPage,
+  LoginPage,
+  SignUpPage,
+} from './components/pages';
 import { Toaster } from './components/ui';
+import { useAuthStore } from './stores/auth';
 
 const App = () => {
+  const user = useAuthStore((state) => state.user);
+
   return (
     <>
       <Routes>
@@ -24,7 +32,7 @@ const App = () => {
             element={<CenteredLayout>ログアウトページ</CenteredLayout>}
           />
         </Route>
-        <Route path="todos" element={<DashboardPage />} />
+        <Route path="todos" element={<DashboardPage user={user} />} />
         <Route path="todos/create" element={<CreateTodoPage />} />
       </Routes>
       <Toaster position="bottom-right" closeButton />

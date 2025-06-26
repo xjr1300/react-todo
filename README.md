@@ -117,6 +117,8 @@ function App() {
 export default App
 ```
 
+インストールしたコンポーネントは、`src/components/ui`に配置されます。
+
 ## React + TypeScript + Vite
 
 このテンプレートは、HMRといくつかのESLintルールを使用して、Reactを機能させる最低限の準備を提供しています。
@@ -199,8 +201,6 @@ export default tseslint.config({
 
 ## コンポーネントの拡張
 
-プリミティブなコンポーネントを拡張したコンポーネントは、`/src/components/atoms`に配置します。
-
 ```tsx
 import type React from 'react';
 import { FormLabel as ShadcnLabel } from '../ui';
@@ -226,6 +226,14 @@ export const FormLabel = ({
   );
 };
 ```
+
+## コンポーネントの管理
+
+- `src/components/ui`: shadcnコンポーネント
+- `src/components/primitives`: プリミティブなコンポーネントを拡張したコンポーネント
+- `src/components/features`: 機能ごとにディレクトリを作成して、特有の機能をまとめたコンポーネント
+- `src/components/layouts`: レイアウトコンポーネント
+- `src/components/pages`: ページコンポーネント
 
 ## ログインユーザーの管理
 

@@ -20,6 +20,7 @@ interface PasswordFieldProps {
   required?: boolean;
   placeholder?: string;
   description?: string;
+  autoComplete?: React.HTMLInputAutoCompleteAttribute;
 }
 
 export const PasswordField = ({
@@ -29,6 +30,7 @@ export const PasswordField = ({
   required = true,
   placeholder = 'パスワードを入力',
   description,
+  autoComplete = 'current-password',
 }: PasswordFieldProps) => {
   const { control, getFieldState } = useFormContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -60,7 +62,7 @@ export const PasswordField = ({
                 {...field}
                 id={inputId}
                 type={passwordVisibility ? 'text' : 'password'}
-                autoComplete="on"
+                autoComplete={autoComplete}
                 placeholder={placeholder}
                 className={cn('pr-2', error && 'border-destructive')}
               />

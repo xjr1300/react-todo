@@ -13,8 +13,8 @@ import {
   Form,
 } from '../../ui';
 import { cn } from '@/lib/utils';
-import { AppName, InputField, Link, PasswordField } from '../../common';
-import { AlertMessage } from '../../common/AlertMessage';
+import { AppName, InputField, Link, PasswordField } from '../../primitives';
+import { AlertMessage } from '../../primitives/AlertMessage';
 import { type LoginData, LoginSchema } from '@/types';
 import type { ApiError } from '@/api';
 import { useLogin } from './hooks';
@@ -83,8 +83,13 @@ const Login = ({ className, ...props }: React.ComponentProps<'div'>) => {
                 label="Eメールアドレス"
                 required
                 placeholder="Eメールアドレスを入力"
+                autoComplete="email"
               />
-              <PasswordField label="パスワード" name="password" />
+              <PasswordField
+                label="パスワード"
+                name="password"
+                autoComplete="current-password"
+              />
               <Button className="w-full" type="submit" disabled={isPending}>
                 {isPending ? '処理中...' : 'ログイン'}
               </Button>
