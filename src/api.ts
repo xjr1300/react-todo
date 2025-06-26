@@ -131,6 +131,12 @@ export const login = async (data: LoginData): Promise<TokenPair> => {
   return tokenPairFromTokenPairData(tokenPairData);
 };
 
+export const me = async (): Promise<User> => {
+  const response = await client.get<UserData>('/users/me');
+  const userData = UserSchema.parse(response.data);
+  return userFromUserData(userData);
+};
+
 export const createTodo = async (data: CreateTodoData): Promise<Todo> => {
   const response = await client.post<TodoData>('/todos', data);
   const todoData = TodoSchema.parse(response.data);

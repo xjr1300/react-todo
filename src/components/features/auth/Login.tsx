@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
@@ -18,6 +18,8 @@ import { AlertMessage } from '../../common/AlertMessage';
 import { type LoginData, LoginSchema } from '@/types';
 import type { ApiError } from '@/api';
 import { useLogin } from './hooks';
+import { useAuthStore } from '@/stores/auth';
+import { me } from '@/api';
 
 const Login = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const form = useForm<LoginData>({
@@ -27,18 +29,32 @@ const Login = ({ className, ...props }: React.ComponentProps<'div'>) => {
       password: '',
     },
   });
-  const { mutate, isPending, isSuccess, isError, error } = useLogin();
   const navigate = useNavigate();
+  const { mutate, isPending, isSuccess, isError, error } = useLogin();
+  const { setUser } = useAuthStore();
 
   const onSubmit = (values: LoginData) => {
-    console.log('Login values:', values);
     mutate(values);
   };
 
-  if (isSuccess) {
-    toast.success('サインアップに成功しました。', { id: 'login-success' });
-    void navigate('/dashboard');
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setUser(undefined);
+      me()
+        .then((user) => {
+          setUser(user);
+          toast.success('ログインに成功しました。', { id: 'login-success' });
+          void navigate('/todos', { replace: true });
+        })
+        .catch((e: unknown) => {
+          console.error('Failed to fetch user data:', e);
+          toast.error('ユーザーデータの取得に失敗しました。', {
+            id: 'user-fetch-error',
+          });
+          setUser(null);
+        });
+    }
+  }, [isSuccess, setUser, navigate]);
 
   if (isError) {
     const apiError = error as ApiError;
